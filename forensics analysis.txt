@@ -1,0 +1,127 @@
+
+
+victim IP : 12.183.1.55
+
+goals:
+1. where did the user contract the malware from?
+                
+                 -puskovayaustanovka.ru/pusk.exe
+                 -no User-Agent
+
+2.malware file( if possible)?
+                 
+                 -MD5 : f2e199d3f2ef983474c2b4c132de7638
+                 -SHA256 : f619ff4840b4d491ca0e3fcadb17d10e854e5bce65f1459ff3503a6794b76a1d 
+
+
+3.what kind of calls to the internet does it make?
+                 
+                 -seemingly random DNS queries for a number of domains
+                 -rapid connection attempts to resolved DNS names
+                 -eventually connects to a webpage on port 80 to one of the servers
+
+4.does it try to self propogate through the internal networks?
+                
+                 -No connection attempts to RFC 1918,or other 12.x addresses
+
+5.possible network traffic signatures.
+                 
+                 -we have the DNS names
+                 -high volume of DNS queries followed by high volume of port 80 connections attempts.
+
+
+                                                                                                                                                 
+		
+			ip.addr == 12.183.1.55             ip.addr == 12.183.1.55 && !(tcp.stream ==5) 
+                                                                 
+  ip.src == 12.183.1.55 &&(ip.addr == 192.168.0.0/16 || ip.addr == 172.16.0.0/12 || ip.addr == 10.0.0.0/8 || ip.dst == 12.0.0.0/8) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Attacker IP: 192.168.56.101
+FTP server IP: 192.168.51.1
+
+
+goals:
+1. what events led to the attack on the FTP server?
+               
+                -ARP scans; devices located:
+                      *192.168.56.1
+                      *192.168.56.100
+                      *192.168.56.101
+                -SYN scan:
+                      *21               *49152
+                      *445              *49156
+                      *139              *49153
+                      *135              *49155
+                      *49154
+
+
+2. what were the results of those attack? ( eg. did they login, what did they find,were files stolen,etc.? ) 
+
+                 - attacker logged in with "anon/anon"
+                 - they listed the directories and downloaded
+                          'Whywecanthavenicecat.png'
+                 -MD5 sum: 
+                    12039fd05bc2fcd3902247124edcea06
+
+
+
+
+
+                                                                             !(tcp.port==21)            ftp.response.code==230
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
